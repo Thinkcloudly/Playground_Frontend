@@ -1,0 +1,12 @@
+.navBar-content {
+    /* width: 100vw; */
+    display: flex;
+    justify-content: space-between;
+    min-height: auto !important;
+}
+
+#nav {
+    background-color: #ffffff;
+    box-shadow: 0.5px 1px 5px 1px rgb(124, 151, 171);
+    height: 55px;
+}

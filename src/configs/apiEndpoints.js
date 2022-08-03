@@ -1,0 +1,1 @@
+export const generatePlaygroundEndpoint = (courseId) => `playground/${courseId}`;

@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-thinkcloudly-dev-11759-authRole",
+      "UnauthRoleArn": "arn:aws:iam::071688540161:role/amplify-thinkcloudly-dev-11759-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::071688540161:role/amplify-thinkcloudly-dev-11759-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-thinkcloudly-dev-11759-deployment",
+      "UnauthRoleName": "amplify-thinkcloudly-dev-11759-unauthRole",
+      "StackName": "amplify-thinkcloudly-dev-11759",
+      "StackId": "arn:aws:cloudformation:us-east-1:071688540161:stack/amplify-thinkcloudly-dev-11759/5ffdbc10-0609-11ed-9f85-0e8c5910f51b",
+      "AmplifyAppId": "d3sr8hyytibzf2"
+    },
+    "categories": {
+      "auth": {
+        "thinkcloudlyb6d7ec71": {}
+      }
+    }
+  }
+}
