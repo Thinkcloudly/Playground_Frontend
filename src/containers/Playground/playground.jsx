@@ -8,7 +8,7 @@ import './playground.css';
 import { useNavigate } from 'react-router-dom';
 import { Auth } from "aws-amplify";
 import { get } from "lodash";
-import { getUserNameFromAmplify } from '../../utils/userHelperFuncs';
+import AwsAmplifyCongnitoAuth from '../../utils/AwsAmplifyCognitoAuth';
 
 const Playground = () => {
   const [showLoader, setShowLoader] = useState(false);
@@ -30,8 +30,9 @@ const Playground = () => {
   const generatePlayground = async (course) => {
     try {
       const { environment, resources } = course;
-      const userName = getUserNameFromAmplify();
-            const payload = {
+      const amplifyAuth = new AwsAmplifyCongnitoAuth();
+      const userName = await amplifyAuth.getUserNameFromAmplify();
+      const payload = {
         region: "us-east-1",
         environment,
         resources,

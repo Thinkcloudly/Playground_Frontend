@@ -2,21 +2,17 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import { Auth } from "aws-amplify";
-import Cookies from "js-cookie";
-import { get } from "lodash";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader";
 import SnackBar from "../../components/SnackBar";
 import { snackBarAlertLevels } from "../../configs/constants";
+import AwsAmplifyCongnitoAuth from "../../utils/AwsAmplifyCognitoAuth";
 const theme = createTheme();
 
 export default function SignIn() {
@@ -29,11 +25,17 @@ export default function SignIn() {
 
   const signIn = async () => {
     try {
-     const response = await Auth.signIn(email, password);
-     Cookies.set("userAccessToken", get(response, ['signInUserSession', 'accessToken', 'jwtToken']), { expires: 1 });
+      if (!email || !password) {
+        setShowAlert(true);
+        setShowLoader(false);
+        return;
+      }
+      const amplifyAuth = new AwsAmplifyCongnitoAuth();
+      await amplifyAuth.signInToCognito(email, password);
       navigate("/");
     } catch (e) {
       console.error("Error while signing in", e);
+      setShowAlert(true);
     } finally {
       setShowLoader(false);
     }
@@ -116,7 +118,7 @@ export default function SignIn() {
       </Container>
       <SnackBar 
       show={showAlert}
-      message="Incorrect Email or Password"
+      message="Invalid Email or Password"
       onClose={() => setShowAlert(false)}
       level={snackBarAlertLevels.error}
       />

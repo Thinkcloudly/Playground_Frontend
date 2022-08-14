@@ -3,7 +3,6 @@ import MuiAlert from '@mui/material/Alert';
 import React from 'react'
 
 const SnackBar = ({ show, level, message, onClose }) => {
-  console.log("F-6", show, level, message);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { isUserLoggedIn } from "../../utils/userHelperFuncs";
+import AwsAmplifyCongnitoAuth from "../../utils/AwsAmplifyCognitoAuth";
 
 const UserLogggedIn = (Component) => {
   const UpdatedComponent = () => {
@@ -11,7 +11,8 @@ const UserLogggedIn = (Component) => {
     }, []);
 
     const getUserLoggedInStatus = async () => {
-      const userLoggedIn = await isUserLoggedIn();
+      const amplifyAuth = new AwsAmplifyCongnitoAuth();
+      const userLoggedIn = await amplifyAuth.isUserLoggedIn();
       setIsLoggedIn(userLoggedIn);
     };
 

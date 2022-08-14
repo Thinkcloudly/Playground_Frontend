@@ -1,10 +1,8 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import rd from './ins.md';
 import Markdown from 'markdown-to-jsx';
 import './instructions.css';
 import { useParams } from 'react-router-dom';
-import { getUserNameFromAmplify } from '../../utils/userHelperFuncs';
+import AwsAmplifyCongnitoAuth from '../../utils/AwsAmplifyCognitoAuth';
 import httpServices from './../../services/http.service';
 import { deleteEnvironmentEndpoint, validateScenerioEndpoint } from '../../configs/apiEndpoints';
 import { get } from 'lodash';
@@ -12,6 +10,7 @@ import { failureInValidation, successfullyValidatedscenario, snackBarAlertLevels
 import SnackBar from '../../components/SnackBar';
 import { deletedEnvironmentSuccessfully } from './../../configs/constants';
 import { CircularProgress } from '@mui/material';
+import Cookies from 'js-cookie';
 
 const { success, warning, error } = snackBarAlertLevels;
 
@@ -32,8 +31,12 @@ const Instructions = () => {
   }, []);
 
   const getUserName = async () => {
-    const user = await getUserNameFromAmplify();
-    console.log(user, "F-4");
+    if (Cookies.get('userName')) {
+      setUserName(Cookies.get('userName'));     
+      return;
+    }
+    const amplifyAuth = new AwsAmplifyCongnitoAuth();
+    const user = await amplifyAuth.getUserNameFromAmplify();
     setUserName(user);
   }
 
