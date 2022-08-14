@@ -13,18 +13,12 @@ import {
 import thinkCloudlyLogo from "../../static/images/logo.jpg";
 import "./navBar.css";
 import { deepPurple } from "@mui/material/colors";
-import AwsAmplifyCongnitoAuth from "../../utils/AwsAmplifyCognitoAuth";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 
 const settings = ["Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [userName, setUserName] = useState("");
-
-  useEffect(() => {
-    getUserName();
-  }, []);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -32,12 +26,6 @@ const ResponsiveAppBar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-  };
-
-  const getUserName = async () => {
-    const amplifyAuth = new AwsAmplifyCongnitoAuth();
-    const user = await amplifyAuth.getUserNameFromAmplify();
-    setUserName(user);
   };
 
   return (

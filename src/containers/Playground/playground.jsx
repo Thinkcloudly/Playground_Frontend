@@ -1,19 +1,22 @@
 import CardComponent from "../../components/CardComponent";
 import coursesOffered from "../../configs/coursesOffered";
 import Loader from "../../components/loader";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import httpServices from "../../services/http.service";
 import { validateEnvironmentEndpoint, createEnvironmentEndpoint } from "../../configs/apiEndpoints";
 import './playground.css';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import { get } from "lodash";
 import AwsAmplifyCongnitoAuth from '../../utils/AwsAmplifyCognitoAuth';
-import { CREATE_COMPLETE, CREATE_IN_PROGRESS, generatingEnvironment, validatingEnvironment, VALIDATE_ENVIRONMENT_INTERVAL_TIME, ENV_STACK_ID } from "../../configs/constants";
+import { CREATE_COMPLETE, CREATE_IN_PROGRESS, generatingEnvironment, validatingEnvironment, VALIDATE_ENVIRONMENT_INTERVAL_TIME, snackBarAlertLevels } from "../../configs/constants";
 import { v4 as uuid } from 'uuid';
+import SnackBar from "../../components/SnackBar";
 
 const Playground = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(generatingEnvironment);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
   
   const handleConfirm = async (course) => {
@@ -52,6 +55,9 @@ const Playground = () => {
       await validateEnvironment(stackId, uniqueKey, course.id);
     } catch (e) {
       console.error(e);
+      setShowAlert(true);
+      setAlertMessage("Error while Creating Environment: ", e.message);
+      setShowLoader(false);
     }
   }
 
@@ -78,6 +84,8 @@ const Playground = () => {
         }
 
         if (!okStatus.includes(stackStatus)) {
+          setAlertMessage(`Error while Validating environment. Current Status:  ${stackStatus}`);
+          setShowAlert(true);
           clearInterval(intervalId);
           setShowLoader(false);
         }
@@ -107,6 +115,12 @@ const Playground = () => {
         })}
       </div>
 <Loader showLoader={showLoader} message={loadingMessage} />
+<SnackBar
+  show={showAlert}
+  message={alertMessage}
+  level={snackBarAlertLevels.error}
+  onClose={() => setShowAlert(false)}
+/>
     </>
   );
 };
