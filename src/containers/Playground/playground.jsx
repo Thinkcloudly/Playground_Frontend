@@ -5,70 +5,88 @@ import { useEffect, useState } from "react";
 import httpServices from "../../services/http.service";
 import { validateEnvironmentEndpoint, createEnvironmentEndpoint } from "../../configs/apiEndpoints";
 import './playground.css';
-import { useNavigate } from 'react-router-dom';
-import { Auth } from "aws-amplify";
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import { get } from "lodash";
 import AwsAmplifyCongnitoAuth from '../../utils/AwsAmplifyCognitoAuth';
+import { CREATE_COMPLETE, CREATE_IN_PROGRESS, generatingEnvironment, validatingEnvironment, VALIDATE_ENVIRONMENT_INTERVAL_TIME, ENV_STACK_ID } from "../../configs/constants";
+import { v4 as uuid } from 'uuid';
 
 const Playground = () => {
   const [showLoader, setShowLoader] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(generatingEnvironment);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // removing stacktraceId from localStorage
-    localStorage.removeItem("stacktraceId");
-  }, [])
   
   const handleConfirm = async (course) => {
-    handleSetShowLoader(true);
+    setShowLoader(true);
 
     await generatePlayground(course);
-    handleSetShowLoader(false);
-    navigate(`/instructions/${course.id}`);
   };
 
   const generatePlayground = async (course) => {
     try {
       const { environment, resources } = course;
       const amplifyAuth = new AwsAmplifyCongnitoAuth();
-      const userName = await amplifyAuth.getUserNameFromAmplify();
+      const userId = await amplifyAuth.getUserNameFromAmplify();
+      const uniqueKey = `${userId}-${environment}-${uuid()}`;
+      const tags = [{
+        "Key":"Name",
+        "Value": uniqueKey
+      }];
+      const updatedResources = resources.map(resource => {
+        return {
+          ...resource,
+          properties: {
+            ...resource.properties,
+            "Tags": tags
+          }
+        }
+      });
       const payload = {
         region: "us-east-1",
         environment,
-        resources,
-        userName
+        resources: updatedResources,
+        userId
       }
       const response = await httpServices.postRequest(createEnvironmentEndpoint, payload);
-      const stackId = get(response, 'data', 'stackTraceId');
-      localStorage.setItem('stackTraceId', stackId);
-      await validateEnvironment(stackId, course.id);
+      const stackId = get(response, ['data', 'StackId']);
+      await validateEnvironment(stackId, uniqueKey, course.id);
     } catch (e) {
       console.error(e);
     }
   }
 
-  const validateEnvironment = async (stackId, courseId) => {
+  const validateEnvironment = async (stackId, uniqueId, courseId) => {
     const payload = {
       stackId
     }
+    setLoadingMessage(validatingEnvironment);
+    const okStatus = [CREATE_IN_PROGRESS, CREATE_COMPLETE];
     const intervalId = setInterval(async () => {
       try {
         const response = await httpServices.postRequest(validateEnvironmentEndpoint, payload);
-        if (get(response, ['data', 'status']) === 'success') {
+        const stackStatus = get(response, ['data', 'StackStatus']);
+        if (stackStatus === CREATE_COMPLETE) {
           clearInterval(intervalId);
-          navigate(`/instruction/${courseId}`);
+          setShowLoader(false);
+          navigate({
+            pathname: `/instructions/${courseId}`,
+            search: createSearchParams({
+              stackId,
+              uniqueId
+          }).toString()
+        });
+        }
+
+        if (!okStatus.includes(stackStatus)) {
+          clearInterval(intervalId);
+          setShowLoader(false);
         }
    
       } catch (e) {
         console.error("Error while validating environment", e);
       }      
-    }, 10000);  
-
+    }, VALIDATE_ENVIRONMENT_INTERVAL_TIME);  
   }
-
-  const handleSetShowLoader = (value) => {
-    setShowLoader(value);
-  };
 
   return (
     <>
@@ -88,7 +106,7 @@ const Playground = () => {
           );
         })}
       </div>
-<Loader showLoader={showLoader} message="Generating Playground..." />
+<Loader showLoader={showLoader} message={loadingMessage} />
     </>
   );
 };

@@ -9,9 +9,14 @@ const coursesOffered = [
       "Take a top-rated Microsoft Azure course on Udemy ",
     image: azure,
     environment: "testEnv",
-    resources:[
+    "resources":[
       {
-        "type":"AWS::EC2::EIP"
+        "type":"AWS::EC2::Instance",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "ImageId":"ami-090fa75af13c156b4",
+          "InstanceType": "t2.micro"
+         }
       },
       {
         "type":"AWS::EC2::Volume",
@@ -29,9 +34,14 @@ const coursesOffered = [
       "Take a top-rated Microsoft Azure course on Udemy to get a primer",
     image: aws,
     environment: "testEnv",
-    resources:[
+    "resources":[
       {
-        "type":"AWS::EC2::EIP"
+        "type":"AWS::EC2::Instance",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "ImageId":"ami-090fa75af13c156b4",
+          "InstanceType": "t2.micro"
+         }
       },
       {
         "type":"AWS::EC2::Volume",
@@ -49,9 +59,14 @@ const coursesOffered = [
       "Take a top-rated Microsoft Azure course on Udemy to get a primer.",
     image: aws,
     environment: "testEnv",
-    resources:[
+    "resources":[
       {
-        "type":"AWS::EC2::EIP"
+        "type":"AWS::EC2::Instance",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "ImageId":"ami-090fa75af13c156b4",
+          "InstanceType": "t2.micro"
+         }
       },
       {
         "type":"AWS::EC2::Volume",
@@ -69,9 +84,14 @@ const coursesOffered = [
       "Take a top-rated Microsoft Azure course on Udemy to get a primer.",
     image: aws,
     environment: "testEnv",
-    resources:[
+    "resources":[
       {
-        "type":"AWS::EC2::EIP"
+        "type":"AWS::EC2::Instance",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "ImageId":"ami-090fa75af13c156b4",
+          "InstanceType": "t2.micro"
+         }
       },
       {
         "type":"AWS::EC2::Volume",

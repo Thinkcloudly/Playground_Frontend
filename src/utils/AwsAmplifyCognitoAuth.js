@@ -1,12 +1,12 @@
 import { Auth } from "aws-amplify";
 import Cookies from "js-cookie";
 import { get } from "lodash";
+import { REFRESH_TOKEN_INTERVAL_TIME } from "../configs/constants";
 
 export default class AwsAmplifyCongnitoAuth {
   constructor() {
     this.auth = Auth;
     this.timerId = null;
-    this.refreshTokenTime = (20 * 60 * 1000)
   }
 
   signInToCognito = async (username, password) => {
@@ -14,7 +14,7 @@ export default class AwsAmplifyCongnitoAuth {
       Cookies.set("userAccessToken", get(response, ['signInUserSession', 'accessToken', 'jwtToken']), { expires: 1 });
       await this.getUserNameFromAmplify();
       clearInterval(this.timerId);
-      this.timerId = setInterval(this.refreshExistingToken, this.refreshTokenTime)
+      this.timerId = setInterval(this.refreshExistingToken, REFRESH_TOKEN_INTERVAL_TIME)
   }
       
 
@@ -29,16 +29,21 @@ export default class AwsAmplifyCongnitoAuth {
   }
 
   validateToken = async () => {
-    const currentSession = await Auth.currentSession();
-    const userAccessToken = Cookies.get("userAccessToken");
-    if (
-      userAccessToken &&
-      userAccessToken ===
-        get(currentSession, ["accessToken", "jwtToken"])
-    ) {
-      return true;
+    try {
+      const currentSession = await Auth.currentSession();
+      const userAccessToken = Cookies.get("userAccessToken");
+      if (
+        userAccessToken &&
+        userAccessToken ===
+          get(currentSession, ["accessToken", "jwtToken"])
+      ) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.error('Error while validating token', e);
+      return false;
     }
-    return false;
   }
 
   refreshExistingToken = async () => {

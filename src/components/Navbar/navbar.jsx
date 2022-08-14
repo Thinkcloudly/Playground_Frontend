@@ -57,10 +57,7 @@ const ResponsiveAppBar = () => {
                 <Avatar
                   sx={{ bgcolor: deepPurple[500] }}
                   alt="User-Name Avatar"
-                >
-                  {" "}
-                  {userName?.slice(0, 1)?.toUpperCase()}{" "}
-                </Avatar>
+                />
               </IconButton>
             </Tooltip>
             <Menu

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Markdown from 'markdown-to-jsx';
 import './instructions.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import AwsAmplifyCongnitoAuth from '../../utils/AwsAmplifyCognitoAuth';
 import httpServices from './../../services/http.service';
 import { deleteEnvironmentEndpoint, validateScenerioEndpoint } from '../../configs/apiEndpoints';
 import { get } from 'lodash';
-import { failureInValidation, successfullyValidatedscenario, snackBarAlertLevels } from '../../configs/constants';
+import { failureInValidation, successfullyValidatedscenario, snackBarAlertLevels, ENV_STACK_ID } from '../../configs/constants';
 import SnackBar from '../../components/SnackBar';
 import { deletedEnvironmentSuccessfully } from './../../configs/constants';
 import { CircularProgress } from '@mui/material';
@@ -23,6 +23,9 @@ const Instructions = () => {
   const [alertLevel, setAlertLevel] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { courseId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const stackId = searchParams.get('stackId');
+  const uniqueId = searchParams.get('uniqueId');
 
 
   useEffect(() => {
@@ -57,8 +60,11 @@ const Instructions = () => {
 
   const handleValidation = async () => {
     try {
+      const payload = {
+        stackId
+      }
       setIsLoading(true);
-      const response = await httpServices.postRequest(validateScenerioEndpoint, localStorage.getItem('stackId'));
+      const response = await httpServices.postRequest(validateScenerioEndpoint, payload);
       if (get(response, ['data', 'status']) === 'success') {
         setAlertMessage(successfullyValidatedscenario);
         setAlertLevel(success);
@@ -79,11 +85,16 @@ const Instructions = () => {
   const handleDelete = async () => {
     try {
       setIsLoading(true);
-      const response = await httpServices.postRequest(deleteEnvironmentEndpoint, localStorage.getItem('stackId'));
-      if (get(response, ['data', 'status']) === 'success') {
+      const payload = {
+        stackId
+      }
+      await httpServices.postRequest(deleteEnvironmentEndpoint, payload);
+      // if (get(response, ['data', 'status']) === 'success') {
+      //   setAlertMessage(deletedEnvironmentSuccessfully);
+      //   setAlertLevel(success);
+      // } 
         setAlertMessage(deletedEnvironmentSuccessfully);
         setAlertLevel(success);
-      } 
     } catch (e) {
       console.error("Error while deleting Scenerio", e);
       setAlertMessage('Error while deleting Scenerio');
@@ -101,13 +112,13 @@ const Instructions = () => {
 
     <h2>Instructions</h2>
     <hr/>
-    <h3>{`User Name: ${userName}`}</h3>
+    <h3>{`User Unique-ID: ${uniqueId.toString()}`}</h3>
     <Markdown children={instructions}/>
       </div>
       <div className='btns'>
 
-    <button  className='btn success' onClick={handleValidation}>Validate</button>
-    <button  className='btn failure' onClick={handleDelete}>Delete</button>
+    <button disabled={isLoading}  className='btn success' onClick={handleValidation}>Validate</button>
+    <button  disabled={isLoading} className='btn failure' onClick={handleDelete}>Delete</button>
       </div>
   
       <SnackBar 
