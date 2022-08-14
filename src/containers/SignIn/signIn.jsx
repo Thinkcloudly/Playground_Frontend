@@ -15,12 +15,15 @@ import Cookies from "js-cookie";
 import { get } from "lodash";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader";
+import SnackBar from "../../components/SnackBar";
+import { snackBarAlertLevels } from "../../configs/constants";
 const theme = createTheme();
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showLoader, setShowLoader] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const navigate = useNavigate();
 
@@ -111,6 +114,12 @@ export default function SignIn() {
           message="Signing in..."
         />
       </Container>
+      <SnackBar 
+      show={showAlert}
+      message="Incorrect Email or Password"
+      onClose={() => setShowAlert(false)}
+      level={snackBarAlertLevels.error}
+      />
     </ThemeProvider>
   );
 }

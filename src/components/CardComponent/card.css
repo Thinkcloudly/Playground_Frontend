@@ -1,6 +1,6 @@
 .shadow {
     box-shadow: 3px 3px 2px 0px grey;
-    background-color: #eef2f3;
+    /* background-color: #eef2f3; */
 }
 
 .shadow:hover {

@@ -4,16 +4,40 @@ import rd from './ins.md';
 import Markdown from 'markdown-to-jsx';
 import './instructions.css';
 import { useParams } from 'react-router-dom';
-const aws = require('../../static/instructions/aws.md');
+import { getUserNameFromAmplify } from '../../utils/userHelperFuncs';
+import httpServices from './../../services/http.service';
+import { deleteEnvironmentEndpoint, validateScenerioEndpoint } from '../../configs/apiEndpoints';
+import { get } from 'lodash';
+import { failureInValidation, successfullyValidatedscenario, snackBarAlertLevels } from '../../configs/constants';
+import SnackBar from '../../components/SnackBar';
+import { deletedEnvironmentSuccessfully } from './../../configs/constants';
+import { CircularProgress } from '@mui/material';
+
+const { success, warning, error } = snackBarAlertLevels;
 
 const Instructions = () => {
 
   const [instructions, setInstructions] = useState('');
+  const [userName, setUserName] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertLevel, setAlertLevel] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { courseId } = useParams();
 
+
   useEffect(() => {
-    fetchMarkDownFileContent()
-  }, [])
+    fetchMarkDownFileContent();
+    getUserName();
+  }, []);
+
+  const getUserName = async () => {
+    const user = await getUserNameFromAmplify();
+    console.log(user, "F-4");
+    setUserName(user);
+  }
+
+
 
   const fetchMarkDownFileContent = async () => {
     try {
@@ -28,12 +52,72 @@ const Instructions = () => {
     }
   }
 
+  const handleValidation = async () => {
+    try {
+      setIsLoading(true);
+      const response = await httpServices.postRequest(validateScenerioEndpoint, localStorage.getItem('stackId'));
+      if (get(response, ['data', 'status']) === 'success') {
+        setAlertMessage(successfullyValidatedscenario);
+        setAlertLevel(success);
+      } else {
+        setAlertMessage(failureInValidation);
+        setAlertLevel(warning);
+      }
+    } catch (e) {
+      console.error("Error while Validating Scenerio", e);
+      setAlertMessage('Error while Validating Scenerio');
+      setAlertLevel(error);
+    } finally {
+      setShowAlert(true);
+      setIsLoading(false);
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+      const response = await httpServices.postRequest(deleteEnvironmentEndpoint, localStorage.getItem('stackId'));
+      if (get(response, ['data', 'status']) === 'success') {
+        setAlertMessage(deletedEnvironmentSuccessfully);
+        setAlertLevel(success);
+      } 
+    } catch (e) {
+      console.error("Error while deleting Scenerio", e);
+      setAlertMessage('Error while deleting Scenerio');
+      setAlertLevel(error);
+    } finally {
+      setShowAlert(true);
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <div className='center'>
+    <>
+    <div className='instructions'>
+      <div>
+
     <h2>Instructions</h2>
     <hr/>
+    <h3>{`User Name: ${userName}`}</h3>
     <Markdown children={instructions}/>
+      </div>
+      <div className='btns'>
+
+    <button  className='btn success' onClick={handleValidation}>Validate</button>
+    <button  className='btn failure' onClick={handleDelete}>Delete</button>
+      </div>
+  
+      <SnackBar 
+        show={showAlert}
+        message={alertMessage}
+        level={alertLevel}
+        onClose={() => setShowAlert(false)}
+      />
 </div>
+    <div className='center'>
+    {isLoading ? <CircularProgress /> : null}
+      </div>
+      </>
   )
 }
 

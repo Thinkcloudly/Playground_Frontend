@@ -1,71 +1,79 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import thinkCloudlyLogo from '../../static/images/logo.jpg';
-import './navBar.css';
+import {
+  AppBar,
+  MenuItem,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Tooltip,
+} from "@mui/material";
+import thinkCloudlyLogo from "../../static/images/logo.jpg";
+import "./navBar.css";
+import { deepPurple } from "@mui/material/colors";
+import { getUserNameFromAmplify } from "../../utils/userHelperFuncs";
+import { useEffect, useState } from "react";
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ["Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [userName, setUserName] = useState("");
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  useEffect(() => {
+    getUserName();
+  }, []);
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
+  const getUserName = async () => {
+    const user = await getUserNameFromAmplify();
+    setUserName(user);
+  };
+
   return (
-    <AppBar position="static" id='nav'>
+    <AppBar position="static" id="nav">
       <Container maxWidth="xl">
-        <Toolbar disableGutters  className='navBar-content'>
+        <Toolbar disableGutters className="navBar-content">
           <img
-          src={thinkCloudlyLogo}
-          height='55px'
-        //   width='80px'
-          alt="ThinkCloudly Logo"
-           />
+            src={thinkCloudlyLogo}
+            height="55px"
+            //   width='80px'
+            alt="ThinkCloudly Logo"
+          />
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  sx={{ bgcolor: deepPurple[500] }}
+                  alt="User-Name Avatar"
+                >
+                  {" "}
+                  {userName?.slice(0, 1)?.toUpperCase()}{" "}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}

@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './card.css';
 
-export default function CardComponent({image, title, description, handleConfirm, id }) {
+export default function CardComponent({image, title, description, handleConfirm, id, course, }) {
   return (
     <Card sx={{ maxWidth: 250 }} className='shadow'>
       <CardMedia
@@ -25,7 +25,7 @@ export default function CardComponent({image, title, description, handleConfirm,
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="outlined" size="small" onClick={() => handleConfirm(id)}>Start Learning</Button>
+        <Button variant="outlined" size="small" onClick={() => handleConfirm(course)}>Start Learning</Button>
         {/* <Button size="small">Learn More</Button> */}
       </CardActions>
     </Card>

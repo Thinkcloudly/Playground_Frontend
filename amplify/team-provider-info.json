@@ -16,5 +16,18 @@
         "thinkcloudlyb6d7ec71": {}
       }
     }
+  },
+  "local": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-thinkcloudly-local-175117-authRole",
+      "UnauthRoleArn": "arn:aws:iam::071688540161:role/amplify-thinkcloudly-local-175117-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::071688540161:role/amplify-thinkcloudly-local-175117-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-thinkcloudly-local-175117-deployment",
+      "UnauthRoleName": "amplify-thinkcloudly-local-175117-unauthRole",
+      "StackName": "amplify-thinkcloudly-local-175117",
+      "StackId": "arn:aws:cloudformation:us-east-1:071688540161:stack/amplify-thinkcloudly-local-175117/9d726ca0-1714-11ed-a47c-0e64a97520cb",
+      "AmplifyAppId": "d3sr8hyytibzf2"
+    }
   }
 }

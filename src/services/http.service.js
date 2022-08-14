@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_HOST_URL = "http://localhost:8000/";
+const BASE_HOST_URL = "http://localhost:8000/api/";
 
 const httpServices = {
   getRequest: async (url, headers) => {

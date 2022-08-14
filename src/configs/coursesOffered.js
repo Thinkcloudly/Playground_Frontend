@@ -8,6 +8,19 @@ const coursesOffered = [
     description:
       "Take a top-rated Microsoft Azure course on Udemy ",
     image: azure,
+    environment: "testEnv",
+    resources:[
+      {
+        "type":"AWS::EC2::EIP"
+      },
+      {
+        "type":"AWS::EC2::Volume",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "Size":30
+         }
+      }
+    ]
   },
   {
     id: "aws",
@@ -15,6 +28,19 @@ const coursesOffered = [
     description:
       "Take a top-rated Microsoft Azure course on Udemy to get a primer",
     image: aws,
+    environment: "testEnv",
+    resources:[
+      {
+        "type":"AWS::EC2::EIP"
+      },
+      {
+        "type":"AWS::EC2::Volume",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "Size":30
+         }
+      }
+    ]
   },
   {
     id: "aws-2",
@@ -22,6 +48,39 @@ const coursesOffered = [
     description:
       "Take a top-rated Microsoft Azure course on Udemy to get a primer.",
     image: aws,
+    environment: "testEnv",
+    resources:[
+      {
+        "type":"AWS::EC2::EIP"
+      },
+      {
+        "type":"AWS::EC2::Volume",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "Size":30
+         }
+      }
+    ]
+  },
+  {
+    id: "gcp",
+    name: "Google Cloud Platform",
+    description:
+      "Take a top-rated Microsoft Azure course on Udemy to get a primer.",
+    image: aws,
+    environment: "testEnv",
+    resources:[
+      {
+        "type":"AWS::EC2::EIP"
+      },
+      {
+        "type":"AWS::EC2::Volume",
+        "properties":{
+          "AvailabilityZone" : "us-east-1a",
+          "Size":30
+         }
+      }
+    ]
   },
 ];
 

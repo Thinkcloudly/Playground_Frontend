@@ -1,34 +1,72 @@
 import CardComponent from "../../components/CardComponent";
 import coursesOffered from "../../configs/coursesOffered";
-import BasicMessageModal from "../../components/Modal";
-import { useState } from "react";
+import Loader from "../../components/loader";
+import { useEffect, useState } from "react";
 import httpServices from "../../services/http.service";
-import { generatePlaygroundEndpoint } from "../../configs/apiEndpoints";
+import { validateEnvironmentEndpoint, createEnvironmentEndpoint } from "../../configs/apiEndpoints";
 import './playground.css';
 import { useNavigate } from 'react-router-dom';
+import { Auth } from "aws-amplify";
+import { get } from "lodash";
+import { getUserNameFromAmplify } from '../../utils/userHelperFuncs';
 
 const Playground = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
-  
-  const handleConfirm = async (courseId) => {
-    handleSetShowModal(true);
 
-    await generatePlayground(courseId);
-    handleSetShowModal(false);
-    navigate(`/instructions/${courseId}`);
+  useEffect(() => {
+    // removing stacktraceId from localStorage
+    localStorage.removeItem("stacktraceId");
+  }, [])
+  
+  const handleConfirm = async (course) => {
+    handleSetShowLoader(true);
+
+    await generatePlayground(course);
+    handleSetShowLoader(false);
+    navigate(`/instructions/${course.id}`);
   };
 
-  const generatePlayground = async (courseId) => {
+  const generatePlayground = async (course) => {
     try {
-      const response = await httpServices.getRequest(generatePlaygroundEndpoint(courseId));
+      const { environment, resources } = course;
+      const userName = getUserNameFromAmplify();
+            const payload = {
+        region: "us-east-1",
+        environment,
+        resources,
+        userName
+      }
+      const response = await httpServices.postRequest(createEnvironmentEndpoint, payload);
+      const stackId = get(response, 'data', 'stackTraceId');
+      localStorage.setItem('stackTraceId', stackId);
+      await validateEnvironment(stackId, course.id);
     } catch (e) {
       console.error(e);
     }
   }
 
-  const handleSetShowModal = (value) => {
-    setShowModal(value);
+  const validateEnvironment = async (stackId, courseId) => {
+    const payload = {
+      stackId
+    }
+    const intervalId = setInterval(async () => {
+      try {
+        const response = await httpServices.postRequest(validateEnvironmentEndpoint, payload);
+        if (get(response, ['data', 'status']) === 'success') {
+          clearInterval(intervalId);
+          navigate(`/instruction/${courseId}`);
+        }
+   
+      } catch (e) {
+        console.error("Error while validating environment", e);
+      }      
+    }, 10000);  
+
+  }
+
+  const handleSetShowLoader = (value) => {
+    setShowLoader(value);
   };
 
   return (
@@ -44,15 +82,12 @@ const Playground = () => {
               title={name}
               handleConfirm={handleConfirm}
               image={image}
+              course={course}
             />
           );
         })}
       </div>
-      <BasicMessageModal
-        showModal={showModal}
-        message="Playground is being created. This may take sometime. Please wait..."
-        handleClose={() => handleSetShowModal(false)}
-      />
+<Loader showLoader={showLoader} message="Generating Playground..." />
     </>
   );
 };
