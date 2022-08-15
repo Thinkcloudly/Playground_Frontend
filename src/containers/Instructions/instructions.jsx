@@ -20,13 +20,14 @@ const Instructions = () => {
   const [alertLevel, setAlertLevel] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { courseId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, ] = useSearchParams();
   const stackId = searchParams.get('stackId');
   const uniqueId = searchParams.get('uniqueId');
 
 
   useEffect(() => {
     fetchMarkDownFileContent();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchMarkDownFileContent = async () => {
