@@ -12,6 +12,9 @@
 }
 
 .demo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-image: linear-gradient(to bottom right,#ffd98c,#fc7a69);
     height: 50px;
     width: 143px;
