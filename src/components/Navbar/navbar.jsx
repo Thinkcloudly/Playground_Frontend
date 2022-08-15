@@ -1,33 +1,38 @@
-import {
-  AppBar,
-  MenuItem,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
-  Avatar,
-  Tooltip,
-} from "@mui/material";
+import { AppBar, Box, Toolbar, Container } from "@mui/material";
 import thinkCloudlyLogo from "../../static/images/logo.jpg";
 import "./navBar.css";
-import { deepPurple } from "@mui/material/colors";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const settings = ["Dashboard", "Logout"];
+const navItems = ["Home", "Blogs", "Courses", "Quiz", "Contact Us"];
+const navLinks = {
+  home: "https://thinkcloudly.com/",
+  blogs: "https://thinkcloudly.com/blogs/",
+  courses: "https://thinkcloudly.com/explore-courses/",
+  quiz: "https://thinkcloudly.com/quiz/",
+  contactUs: "https://thinkcloudly.com/contact-us/",
+  bookDemo: "https://thinkcloudly.com/book-a-demo/",
+};
 
 const ResponsiveAppBar = () => {
-  const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const getLink = (itemName) => {
+    const { home, blogs, courses, quiz, contactUs, bookDemo } = navLinks;
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    switch (itemName) {
+      case navItems[0]:
+        return home;
+      case navItems[1]:
+        return blogs;
+      case navItems[2]:
+        return courses;
+      case navItems[3]:
+        return quiz;
+      case navItems[4]:
+        return contactUs;
+      default:
+        return bookDemo;
+    }
   };
 
   return (
@@ -42,39 +47,16 @@ const ResponsiveAppBar = () => {
             //   width='80px'
             alt="ThinkCloudly Logo"
           />
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  sx={{ bgcolor: deepPurple[500] }}
-                  alt="User-Name Avatar"
-                />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+          <div className="btn-container">
+            <Box>
+              {navItems.map((item) => (
+                <a key={item} className="btn items" href={getLink(item)}>
+                  {item}
+                </a>
               ))}
-            </Menu>
-          </Box>
+            </Box>
+            <button class="demo items">Book a Demo</button>
+          </div>
         </Toolbar>
       </Container>
     </AppBar>
