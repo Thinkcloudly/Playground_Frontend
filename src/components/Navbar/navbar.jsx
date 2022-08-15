@@ -14,11 +14,13 @@ import thinkCloudlyLogo from "../../static/images/logo.jpg";
 import "./navBar.css";
 import { deepPurple } from "@mui/material/colors";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const settings = ["Dashboard", "Logout"];
 
 const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -33,8 +35,10 @@ const ResponsiveAppBar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters className="navBar-content">
           <img
+            onClick={() => navigate("/")}
             src={thinkCloudlyLogo}
             height="55px"
+            style={{ cursor: "pointer" }}
             //   width='80px'
             alt="ThinkCloudly Logo"
           />

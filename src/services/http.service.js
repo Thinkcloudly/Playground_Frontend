@@ -1,5 +1,6 @@
 import axios from "axios";
-const BASE_HOST_URL = process.env.REACT_APP_BASE_HOST_URL;
+const BASE_HOST_URL = 'https://thinkcloudly-playground.netlify.app/.netlify/functions/api/';
+console.log(process.env.REACT_APP_BASE_HOST_URL);
 
 const httpServices = {
   getRequest: async (url, headers) => {
