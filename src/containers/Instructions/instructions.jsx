@@ -9,6 +9,7 @@ import { failureInValidation, successfullyValidatedscenario, snackBarAlertLevels
 import SnackBar from '../../components/SnackBar';
 import { deletedEnvironmentSuccessfully } from './../../configs/constants';
 import { CircularProgress } from '@mui/material';
+import CryptoJS from 'crypto-js';
 
 const { success, warning, error } = snackBarAlertLevels;
 
@@ -23,7 +24,8 @@ const Instructions = () => {
   const [searchParams, ] = useSearchParams();
   const stackId = searchParams.get('stackId');
   const uniqueId = searchParams.get('uniqueId');
-
+  const userData = getDecodedUserCreds();
+  const { userName, password } = userData;
 
   useEffect(() => {
     fetchMarkDownFileContent();
@@ -67,11 +69,18 @@ const Instructions = () => {
     }
   }
 
+  function getDecodedUserCreds() { 
+    const userInfo = CryptoJS.AES.decrypt(uniqueId, process.env.REACT_APP_ENCRYPT_KEY);
+    const parsedInfo = JSON.parse(userInfo.toString(CryptoJS.enc.Utf8));
+    return parsedInfo;
+  }
+
   const handleDelete = async () => {
     try {
       setIsLoading(true);
       const payload = {
-        stackId
+        stackId,
+        userName
       }
       await httpServices.postRequest(deleteEnvironmentEndpoint, payload);
       // if (get(response, ['data', 'status']) === 'success') {
@@ -97,13 +106,14 @@ const Instructions = () => {
 
     <h2>Instructions</h2>
     <hr/>
-    <h3>{`User Unique-ID: ${uniqueId.toString()}`}</h3>
+    <h4>{`IAM User-Name: ${userName}`}</h4>
+    <h4>{`IAM Password: ${password}`}</h4>
     <Markdown children={instructions}/>
       </div>
       <div className='btns'>
 
-    <button disabled={isLoading}  className='btn success' onClick={handleValidation}>Validate</button>
-    <button  disabled={isLoading} className='btn failure' onClick={handleDelete}>Delete</button>
+    <button disabled={isLoading}  className='action-btn success' onClick={handleValidation}>Validate</button>
+    <button  disabled={isLoading} className='action-btn failure' onClick={handleDelete}>Delete</button>
       </div>
   
       <SnackBar 

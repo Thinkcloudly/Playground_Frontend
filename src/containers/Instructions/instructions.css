@@ -21,23 +21,26 @@ color: rgb(23, 64, 94);
     padding: 10px 0px;
 }
 
-.btn {
+.action-btn {
     height: 40px;
     font-size: 16px;
     border-radius: 4px;
     border: 0px;
     padding: 10px;
     font-weight: bold;
+}
 
-    /* width: 100px; */
+.action-btn:disabled {
+    opacity: 0.6;
 }
 
 .success {
     background-color: #5cb85c;
     color: white;
+    width: 85px;
 }
 
-.success:hover {
+.success:hover:enabled {
     background-color: #ffffff;
     color: #50a050;
     border: 1px solid #50a050;
@@ -48,8 +51,9 @@ color: rgb(23, 64, 94);
     color: white;
 }
 
-.failure:hover {
+.failure:hover:enabled {
     background-color: #ffffff;
     color: #d53b36;
     border: 1px solid #d53b36;
 }
+

@@ -11,6 +11,7 @@ import AwsAmplifyCongnitoAuth from '../../utils/AwsAmplifyCognitoAuth';
 import { CREATE_COMPLETE, CREATE_IN_PROGRESS, generatingEnvironment, validatingEnvironment, VALIDATE_ENVIRONMENT_INTERVAL_TIME, snackBarAlertLevels } from "../../configs/constants";
 import { v4 as uuid } from 'uuid';
 import SnackBar from "../../components/SnackBar";
+import CryptoJS from 'crypto-js';
 
 const Playground = () => {
   const [showLoader, setShowLoader] = useState(false);
@@ -52,7 +53,8 @@ const Playground = () => {
       }
       const response = await httpServices.postRequest(createEnvironmentEndpoint, payload);
       const stackId = get(response, ['data', 'StackId']);
-      await validateEnvironment(stackId, uniqueKey, course.id);
+      const iamUser = get(response, ['data', 'iamUser']);
+      await validateEnvironment(stackId, course.id, iamUser);
     } catch (e) {
       console.error(e);
       setShowAlert(true);
@@ -61,10 +63,11 @@ const Playground = () => {
     }
   }
 
-  const validateEnvironment = async (stackId, uniqueId, courseId) => {
+  const validateEnvironment = async (stackId, courseId, iamUser) => {
     const payload = {
       stackId
     }
+    const userData = CryptoJS.AES.encrypt(JSON.stringify(iamUser), process.env.REACT_APP_ENCRYPT_KEY).toString();
     setLoadingMessage(validatingEnvironment);
     const okStatus = [CREATE_IN_PROGRESS, CREATE_COMPLETE];
     const intervalId = setInterval(async () => {
@@ -78,7 +81,7 @@ const Playground = () => {
             pathname: `/instructions/${courseId}`,
             search: createSearchParams({
               stackId,
-              uniqueId
+              uniqueId: userData
           }).toString()
         });
         }
