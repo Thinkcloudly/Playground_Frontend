@@ -80,7 +80,7 @@ const Instructions = () => {
       setIsLoading(true);
       const payload = {
         stackId,
-        userName
+        iamUserId: userName
       }
       await httpServices.postRequest(deleteEnvironmentEndpoint, payload);
       // if (get(response, ['data', 'status']) === 'success') {
