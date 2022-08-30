@@ -80,7 +80,7 @@ const Playground = () => {
           clearInterval(intervalId);
           setShowLoader(false);
           navigate({
-            pathname: `/instructions/${courseId}`,
+            pathname: `/instructions/${courseId}/`,
             search: createSearchParams({
               stackId,
               uniqueId: userData
