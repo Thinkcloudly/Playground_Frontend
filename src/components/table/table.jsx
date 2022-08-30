@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 export default function BasicTable({ columns, rowData }) {
   const getTableColumns = () => {
     return (
-      <TableRow>
+      <TableRow style={{backgroundColor: '#dfdfdf'}}>
         {columns.map((columnData) => (
           <TableCell>{columnData}</TableCell>
         ))}

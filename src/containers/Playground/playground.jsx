@@ -75,8 +75,8 @@ const Playground = () => {
         const response = await httpServices.postRequest(validateEnvironmentEndpoint, payload);
         const stackStatus = get(response, ['data', 'StackStatus']);
         const stackResources = get(response, ['data', 'StackResources']);
-        sessionStorage.setItem('stackResources', JSON.stringify(stackResources));
         if (stackStatus === CREATE_COMPLETE) {
+          sessionStorage.setItem('stackResources', JSON.stringify(stackResources));
           clearInterval(intervalId);
           setShowLoader(false);
           navigate({
@@ -86,6 +86,7 @@ const Playground = () => {
               uniqueId: userData
           }).toString()
         });
+        return;
         }
 
         if (!okStatus.includes(stackStatus)) {
@@ -93,8 +94,9 @@ const Playground = () => {
           setShowAlert(true);
           clearInterval(intervalId);
           setShowLoader(false);
+          return;
         }
-   
+        console.log("Supre log F-3")
       } catch (e) {
         console.error("Error while validating environment", e);
       }      

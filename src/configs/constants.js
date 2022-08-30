@@ -7,7 +7,7 @@ export const validatingEnvironment = "Validating environment. This may take some
 export const CREATE_IN_PROGRESS = "CREATE_IN_PROGRESS";
 export const CREATE_COMPLETE = "CREATE_COMPLETE";
 export const ENV_STACK_ID = "ENV_STACK_ID";
-export const VALIDATE_ENVIRONMENT_INTERVAL_TIME = 5000;
+export const VALIDATE_ENVIRONMENT_INTERVAL_TIME = 3000;
 export const REFRESH_TOKEN_INTERVAL_TIME = (20 * 60 * 1000);
 export const snackBarAlertLevels = {
     success: "success",
