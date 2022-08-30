@@ -96,7 +96,6 @@ const Playground = () => {
           setShowLoader(false);
           return;
         }
-        console.log("Supre log F-3")
       } catch (e) {
         console.error("Error while validating environment", e);
       }      
