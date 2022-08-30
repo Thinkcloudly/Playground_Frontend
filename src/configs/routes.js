@@ -13,7 +13,7 @@ const routes = [
         component: UserLogggedIn(Playground),
     },
     {
-        path: '/instructions/:courseId',
+        path: '/instructions/:courseId/',
         component: UserLogggedIn(Instructions),
     },
 ]
