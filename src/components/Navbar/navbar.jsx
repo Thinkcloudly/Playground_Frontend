@@ -55,7 +55,7 @@ const ResponsiveAppBar = () => {
                 </a>
               ))}
             </Box>
-            <a class="demo items" href={getLink('bookDemo')}>Book a Demo</a>
+            <a className="demo items" href={getLink('bookDemo')}>Book a Demo</a>
           </div>
         </Toolbar>
       </Container>

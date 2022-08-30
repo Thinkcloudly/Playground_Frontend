@@ -74,6 +74,8 @@ const Playground = () => {
       try {
         const response = await httpServices.postRequest(validateEnvironmentEndpoint, payload);
         const stackStatus = get(response, ['data', 'StackStatus']);
+        const stackResources = get(response, ['data', 'StackResources']);
+        sessionStorage.setItem('stackResources', JSON.stringify(stackResources));
         if (stackStatus === CREATE_COMPLETE) {
           clearInterval(intervalId);
           setShowLoader(false);

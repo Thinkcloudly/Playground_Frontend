@@ -10,6 +10,8 @@ import SnackBar from '../../components/SnackBar';
 import { deletedEnvironmentSuccessfully } from './../../configs/constants';
 import { CircularProgress } from '@mui/material';
 import CryptoJS from 'crypto-js';
+import Table from '../../components/table';
+import { resourcesColumn } from './instructionsData';
 
 const { success, warning, error } = snackBarAlertLevels;
 
@@ -19,6 +21,7 @@ const Instructions = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertLevel, setAlertLevel] = useState('');
+  const [stackResources, setStackResources] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { courseId } = useParams();
   const [searchParams, ] = useSearchParams();
@@ -29,6 +32,7 @@ const Instructions = () => {
 
   useEffect(() => {
     fetchMarkDownFileContent();
+    showStackResources();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -45,6 +49,21 @@ const Instructions = () => {
     }
   }
 
+  const showStackResources =() => {
+    const stackResources = JSON.parse(sessionStorage.getItem('stackResources'));
+    console.log("F-6", stackResources);
+    if (!stackResources || !stackResources.length) return;
+
+    const data = stackResources.map((resource) => {
+      const { PhysicalResourceId, ResourceType } = resource;
+      return {
+        PhysicalResourceId,
+        ResourceType
+      }
+    })
+    setStackResources(data);
+  }
+  
   const handleValidation = async () => {
     try {
       const payload = {
@@ -108,6 +127,10 @@ const Instructions = () => {
     <hr/>
     <h4>{`IAM User-Name: ${userName}`}</h4>
     <h4>{`IAM Password: ${password}`}</h4>
+    <Table
+    columns={resourcesColumn}
+    rowData={stackResources}
+    />
     <Markdown children={instructions}/>
       </div>
       <div className='btns'>
