@@ -19,6 +19,7 @@ import { CircularProgress } from "@mui/material";
 import CryptoJS from "crypto-js";
 import Table from "../../components/table";
 import { resourcesColumn, userNameColumn } from "./instructionsData";
+import aws from './../../moduleInstructions/aws.md';
 
 const { success, warning, error } = snackBarAlertLevels;
 
@@ -45,7 +46,8 @@ const Instructions = () => {
 
   const fetchMarkDownFileContent = async () => {
     try {
-      const file = require(`../../static/instructions/${courseId}.md`);
+      const file = await require(`../../moduleInstructions/${courseId}.md`);
+      console.log(file, '-f-1', aws)
       const response = await fetch(file);
       const markdown = await response.text();
       setInstructions(markdown);
@@ -57,7 +59,6 @@ const Instructions = () => {
 
   const showStackResources = () => {
     const stackResources = JSON.parse(sessionStorage.getItem("stackResources"));
-    console.log("F-6", stackResources);
     if (!stackResources || !stackResources.length) return;
 
     const data = stackResources.map((resource) => {
