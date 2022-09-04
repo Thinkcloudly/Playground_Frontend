@@ -5,6 +5,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import httpServices from "./../../services/http.service";
 import {
   deleteEnvironmentEndpoint,
+  fetchInstructionsModuleEndpoint,
   validateScenerioEndpoint,
 } from "../../configs/apiEndpoints";
 import { get } from "lodash";
@@ -20,6 +21,7 @@ import CryptoJS from "crypto-js";
 import Table from "../../components/table";
 import { resourcesColumn, userNameColumn } from "./instructionsData";
 import aws from './../../moduleInstructions/aws.md';
+import axios from 'axios';
 
 const { success, warning, error } = snackBarAlertLevels;
 
@@ -46,10 +48,10 @@ const Instructions = () => {
 
   const fetchMarkDownFileContent = async () => {
     try {
-      const file = await require(`../../moduleInstructions/${courseId}.md`);
-      console.log(file, '-f-1', aws)
-      const response = await fetch(file);
-      const markdown = await response.text();
+      const response = await axios.get(fetchInstructionsModuleEndpoint(courseId));
+      console.log(response.data, '-f-1', aws)
+      // const response = await fetch(file);
+      const markdown = await response.data;
       setInstructions(markdown);
     } catch (e) {
       console.error("Error while fetching mark-down component", e);
