@@ -58,3 +58,7 @@ color: rgb(23, 64, 94);
     border: 1px solid #d53b36;
 }
 
+.progress {
+    width: 100%;
+    padding: 20px 0px;
+}

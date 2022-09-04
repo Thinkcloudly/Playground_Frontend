@@ -16,12 +16,11 @@ import {
 } from "../../configs/constants";
 import SnackBar from "../../components/SnackBar";
 import { deletedEnvironmentSuccessfully } from "./../../configs/constants";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, LinearProgress, Box } from "@mui/material";
 import CryptoJS from "crypto-js";
 import Table from "../../components/table";
 import { resourcesColumn, userNameColumn } from "./instructionsData";
-import aws from './../../moduleInstructions/aws.md';
-import axios from 'axios';
+import axios from "axios";
 
 const { success, warning, error } = snackBarAlertLevels;
 
@@ -48,9 +47,9 @@ const Instructions = () => {
 
   const fetchMarkDownFileContent = async () => {
     try {
-      const response = await axios.get(fetchInstructionsModuleEndpoint(courseId));
-      console.log(response.data, '-f-1', aws)
-      // const response = await fetch(file);
+      const response = await axios.get(
+        fetchInstructionsModuleEndpoint(courseId)
+      );
       const markdown = await response.data;
       setInstructions(markdown);
     } catch (e) {
@@ -150,7 +149,13 @@ const Instructions = () => {
           </p>
 
           <Table columns={resourcesColumn} rowData={stackResources} />
-          <Markdown children={instructions} />
+          {instructions ? (
+            <Markdown children={instructions} />
+          ) : (
+            <Box className='progress'>
+              <LinearProgress />
+            </Box>
+          )}
         </div>
         <div className="btns">
           <button
