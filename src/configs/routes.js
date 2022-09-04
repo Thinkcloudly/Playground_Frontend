@@ -2,6 +2,7 @@ import  SignIn  from '../containers/SignIn';
 import Playground from '../containers/Playground';
 import UserLogggedIn from '../HOC/UserLoggedIn/userLoggedIn';
 import Instructions from '../containers/Instructions';
+import NotFound from '../containers/notFound';
 
 const routes = [
     {
@@ -15,6 +16,10 @@ const routes = [
     {
         path: '/instructions/:courseId/',
         component: UserLogggedIn(Instructions),
+    },
+    {
+        path: '*',
+        component: <NotFound />,
     },
 ]
 
