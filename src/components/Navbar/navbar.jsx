@@ -1,7 +1,7 @@
 import { AppBar, Box, Toolbar, Container } from "@mui/material";
 import thinkCloudlyLogo from "../../static/images/logo.jpg";
 import "./navBar.css";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const navItems = ["Home", "Blogs", "Courses", "Quiz", "Contact Us"];
 const navLinks = {
@@ -14,7 +14,6 @@ const navLinks = {
 };
 
 const ResponsiveAppBar = () => {
-  const navigate = useNavigate();
 
   const getLink = (itemName) => {
     const { home, blogs, courses, quiz, contactUs, bookDemo } = navLinks;
@@ -35,12 +34,18 @@ const ResponsiveAppBar = () => {
     }
   };
 
+  const moveToThinkCloudlyPage = () => {
+    const aElem = document.createElement('a');
+    aElem.href = 'https://thinkcloudly.com/';
+    aElem.click();
+  }
+
   return (
     <AppBar position="static" id="nav">
       <Container maxWidth="xl">
         <Toolbar disableGutters className="navBar-content">
           <img
-            onClick={() => navigate("/")}
+            onClick={moveToThinkCloudlyPage}
             src={thinkCloudlyLogo}
             height="55px"
             style={{ cursor: "pointer" }}
@@ -54,6 +59,7 @@ const ResponsiveAppBar = () => {
                   {item}
                 </a>
               ))}
+              <Link to='/' style={{ marginRight: '20px' }} className="btn items">Labs</Link>
             </Box>
             <a className="demo items" href={getLink('bookDemo')}>Book a Demo</a>
           </div>
