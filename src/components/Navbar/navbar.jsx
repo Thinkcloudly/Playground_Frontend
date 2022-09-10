@@ -1,7 +1,22 @@
-import { AppBar, Box, Toolbar, Container } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Container,
+  Typography,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Drawer,
+  IconButton,
+} from "@mui/material";
 import thinkCloudlyLogo from "../../static/images/logo.jpg";
 import "./navBar.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const navItems = ["Home", "Blogs", "Courses", "Quiz", "Contact Us"];
 const navLinks = {
@@ -13,7 +28,17 @@ const navLinks = {
   bookDemo: "https://thinkcloudly.com/book-a-demo/",
 };
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const drawerWidth = `100%`;
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   const getLink = (itemName) => {
     const { home, blogs, courses, quiz, contactUs, bookDemo } = navLinks;
@@ -34,11 +59,50 @@ const ResponsiveAppBar = () => {
     }
   };
 
+  const drawer = (
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{ textAlign: "center", backgroundColor: "white" }}
+    >
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item} disablePadding>
+            <ListItemButton sx={{ textAlign: "center" }}>
+              <a
+                key={item}
+                className="btn items"
+                style={{ textAlign: "center", color: "#333333" }}
+                href={getLink(item)}
+              >
+                {item}
+              </a>
+            </ListItemButton>
+            <Divider />
+          </ListItem>
+        ))}
+        <ListItem key={"lab"} disablePadding>
+          <ListItemButton>
+            <Link to="/" className="btn items">
+              Labs
+            </Link>
+          </ListItemButton>
+        </ListItem>
+        <ListItem key={"lab"} disablePadding>
+          <ListItemButton>
+          <a className="drawerDemo items" href={getLink("bookDemo")}>
+              Book a Demo
+            </a>
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Box>
+  );
+
   const moveToThinkCloudlyPage = () => {
-    const aElem = document.createElement('a');
-    aElem.href = 'https://thinkcloudly.com/';
+    const aElem = document.createElement("a");
+    aElem.href = "https://thinkcloudly.com/";
     aElem.click();
-  }
+  };
 
   return (
     <AppBar position="static" id="nav">
@@ -52,17 +116,58 @@ const ResponsiveAppBar = () => {
             //   width='80px'
             alt="ThinkCloudly Logo"
           />
-          <div className="btn-container">
+          <Box
+            className="btn-container"
+            sx={{ display: { xs: "none", sm: "flex" } }}
+          >
             <Box>
               {navItems.map((item) => (
                 <a key={item} className="btn items" href={getLink(item)}>
                   {item}
                 </a>
               ))}
-              <Link to='/' style={{ marginRight: '20px' }} className="btn items">Labs</Link>
+              <Link
+                to="/"
+                style={{ marginRight: "20px" }}
+                className="btn items"
+              >
+                Labs
+              </Link>
             </Box>
-            <a className="demo items" href={getLink('bookDemo')}>Book a Demo</a>
-          </div>
+            <a className="demo items" href={getLink("bookDemo")}>
+              Book a Demo
+            </a>
+          </Box>
+          <Box component="nav">
+            <Drawer
+              anchor={"top"}
+              container={container}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: { xs: "block", sm: "none" },
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
+                  width: drawerWidth,
+                },
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Box>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" }, color: "black" }}
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>

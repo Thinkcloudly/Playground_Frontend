@@ -30,6 +30,21 @@
     background-image: linear-gradient(to bottom right,#fdde9f,#ffa093);
 }
 
+.drawerDemo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to bottom right,#ffd98c,#fc7a69);
+    height: 50px;
+    width: 100%;
+    box-shadow: 2px 2px 1px 1px #4928d14d;
+    /* margin: 2px; */
+    border: 1px;
+    border-radius: 3px;
+    font-style: normal;
+    color: #221E45;   
+}
+
 .items {
     font-size: 19px;
     letter-spacing: 1px;

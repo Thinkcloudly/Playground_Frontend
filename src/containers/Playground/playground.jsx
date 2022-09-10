@@ -58,7 +58,7 @@ const Playground = () => {
     } catch (e) {
       console.error(e);
       setShowAlert(true);
-      setAlertMessage("Error while Creating Environment: ", e.message);
+      setAlertMessage("Error while Creating Environment. ", e.message);
       setShowLoader(false);
     }
   }
