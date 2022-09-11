@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText,
   Drawer,
   IconButton,
 } from "@mui/material";
@@ -89,7 +88,7 @@ const ResponsiveAppBar = (props) => {
         </ListItem>
         <ListItem key={"lab"} disablePadding>
           <ListItemButton>
-          <a className="drawerDemo items" href={getLink("bookDemo")}>
+            <a className="drawerDemo items" href={getLink("bookDemo")}>
               Book a Demo
             </a>
           </ListItemButton>
@@ -116,10 +115,7 @@ const ResponsiveAppBar = (props) => {
             //   width='80px'
             alt="ThinkCloudly Logo"
           />
-          <Box
-            className="btn-container"
-            sx={{ display: { xs: "none", sm: "flex" } }}
-          >
+          <Box className="btn-container" id="nav-options">
             <Box>
               {navItems.map((item) => (
                 <a key={item} className="btn items" href={getLink(item)}>
@@ -140,16 +136,15 @@ const ResponsiveAppBar = (props) => {
           </Box>
           <Box component="nav">
             <Drawer
-              anchor={"top"}
+              anchor="top"
               container={container}
-              variant="temporary"
+              // variant="persistent"
               open={mobileOpen}
               onClose={handleDrawerToggle}
               ModalProps={{
                 keepMounted: true, // Better open performance on mobile.
               }}
               sx={{
-                display: { xs: "block", sm: "none" },
                 "& .MuiDrawer-paper": {
                   boxSizing: "border-box",
                   width: drawerWidth,
@@ -160,13 +155,17 @@ const ResponsiveAppBar = (props) => {
             </Drawer>
           </Box>
           <IconButton
+            id="drawer"
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" }, color: "black" }}
+            sx={{ mr: 2, color: "black" }}
           >
             <MenuIcon />
+            <Typography variant="h6" sx={{ ml: 1, color: "#555555" }}>
+              Menu
+            </Typography>
           </IconButton>
         </Toolbar>
       </Container>
