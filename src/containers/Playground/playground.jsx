@@ -121,10 +121,12 @@ const Playground = () => {
           setShowAlert(true);
           clearInterval(intervalId);
           setShowLoader(false);
+          setLoadingMessage(generatingEnvironment);
           return;
         }
       } catch (e) {
         console.error("Error while validating environment", e);
+        setLoadingMessage(generatingEnvironment);
       }
     }, VALIDATE_ENVIRONMENT_INTERVAL_TIME);
   };
