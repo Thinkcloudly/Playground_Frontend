@@ -14,7 +14,7 @@ const routes = [
         component: UserLogggedIn(Playground),
     },
     {
-        path: '/instructions/:courseId/',
+        path: '/instructions/:courseId/:envName/',
         component: UserLogggedIn(Instructions),
     },
     {

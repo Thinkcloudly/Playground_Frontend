@@ -45,6 +45,7 @@ color: rgb(23, 64, 94);
     background-color: #ffffff;
     color: #50a050;
     border: 1px solid #50a050;
+    cursor: pointer;
 }
 
 .failure {
@@ -56,6 +57,7 @@ color: rgb(23, 64, 94);
     background-color: #ffffff;
     color: #d53b36;
     border: 1px solid #d53b36;
+    cursor: pointer;
 }
 
 .progress {

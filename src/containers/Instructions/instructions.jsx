@@ -32,7 +32,7 @@ const Instructions = () => {
   const [stackResources, setStackResources] = useState([]);
   const [userIamData, setUserIamData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { courseId } = useParams();
+  const { courseId, envName } = useParams();
   const [searchParams] = useSearchParams();
   const stackId = searchParams.get("stackId");
   const uniqueId = searchParams.get("uniqueId");
@@ -72,8 +72,10 @@ const Instructions = () => {
     setStackResources(data);
     setUserIamData([
       {
+        alias: 'thinkcloudly',
         userName,
         password,
+        region: "US East (N.Virginia)",
       },
     ]);
   };
@@ -85,7 +87,7 @@ const Instructions = () => {
       };
       setIsLoading(true);
       const response = await httpServices.postRequest(
-        validateScenerioEndpoint,
+        validateScenerioEndpoint(envName),
         payload
       );
       if (get(response, ["data", "status"]) === "success") {
