@@ -1,6 +1,6 @@
 {
   "auth": {
-    "thinkcloudlyb6d7ec71": {
+    "thinkcloudly73419cd4": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

@@ -4,6 +4,7 @@ import awsconfig from "./aws-exports";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import routes from "./configs/routes";
 import NavigationBar from "./components/Navbar";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 Amplify.configure(awsconfig);
 
@@ -27,4 +28,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuthenticator(App);
