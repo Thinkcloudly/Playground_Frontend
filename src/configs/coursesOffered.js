@@ -1,12 +1,13 @@
-import azure from "./../static/images/azure.jpg";
 import aws from "./../static/images/aws.png";
+import aws_1 from "./../static/images/aws-1.jpg";
+import aws_2 from "./../static/images/aws-2.jpg";
 
 const coursesOffered = [
   {
-    id: "azure",
-    name: "Microsoft Azure -Scenerio-1",
-    description: "Take a top-rated Microsoft Azure course on Udemy ",
-    image: azure,
+    id: "aws-1",
+    name: "EBS & EC2",
+    description: "Learn how to attach EBS to EC2 in 4 simple steps",
+    image: aws_1,
     environment: "testEnv1",
     resources: [
       {
@@ -29,11 +30,11 @@ const coursesOffered = [
     ],
   },
   {
-    id: "aws",
-    name: "Amazon Web Services - Scenerio-2",
+    id: "aws-2",
+    name: "EC2 Website Access",
     description:
-      "Take a top-rated Microsoft Azure course on Udemy to get a primer",
-    image: aws,
+      "Troubleshoot & Fix Website Access Issue on EC2",
+    image: aws_2,
     environment: "testEnv2",
     resources: [
       {
@@ -82,57 +83,7 @@ const coursesOffered = [
         },
       },
     ],
-  },
-  {
-    id: "aws-2",
-    name: "Amazon Super Services",
-    description:
-      "Take a top-rated Microsoft Azure course on Udemy to get a primer.",
-    image: aws,
-    environment: "testEnv",
-    resources: [
-      {
-        type: "AWS::EC2::Instance",
-        properties: {
-          AvailabilityZone: "us-east-1a",
-          ImageId: process.env.REACT_APP_LINUX_IMAGE_ID,
-          InstanceType: "t2.micro",
-        },
-      },
-      {
-        type: "AWS::EC2::Volume",
-        properties: {
-          AvailabilityZone: "us-east-1a",
-          Size: 30,
-        },
-      },
-    ],
-  },
-  {
-    id: "gcp",
-    name: "Google Cloud Platform",
-    description:
-      "Take a top-rated Microsoft Azure course on Udemy to get a primer.",
-    image: aws,
-    environment: "testEnv",
-    resources: [
-      {
-        type: "AWS::EC2::Instance",
-        properties: {
-          AvailabilityZone: "us-east-1a",
-          ImageId:process.env.REACT_APP_LINUX_IMAGE_ID,
-          InstanceType: "t2.micro",
-        },
-      },
-      {
-        type: "AWS::EC2::Volume",
-        properties: {
-          AvailabilityZone: "us-east-1a",
-          Size: 30,
-        },
-      },
-    ],
-  },
+  }
 ];
 
 export default coursesOffered;
