@@ -1,9 +1,9 @@
 .shadow {
-    box-shadow: 3px 3px 2px 0px grey;
+    box-shadow: 3px 3px 3px 0px rgb(135, 135, 135) !important;
     /* background-color: #eef2f3; */
 }
 
 .shadow:hover {
     transform: scale(1.03);
-    transition: 0.3s ease-in;
+    transition: 0.2s ease;
 }

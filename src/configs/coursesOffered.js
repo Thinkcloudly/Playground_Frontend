@@ -1,6 +1,5 @@
-import aws from "./../static/images/aws.png";
-import aws_1 from "./../static/images/aws-1.jpg";
-import aws_2 from "./../static/images/aws-2.jpg";
+import aws_1 from "./../static/images/1.png";
+import aws_2 from "./../static/images/2.png";
 
 const coursesOffered = [
   {
