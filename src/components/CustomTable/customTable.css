@@ -1,0 +1,67 @@
+.custom-table {
+    width: 95%;
+    margin: 20px;
+    border-collapse:collapse;
+}
+tr.table-item {
+box-shadow:0px 2px 3px 0px #d4c492;
+}
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.table-item {
+    /* border: 10px solid black; */
+    padding: 20px 10px;
+    text-align: center;
+}
+
+tr.table-item:hover {
+    transform: scaleY(1.05);
+    transition: 0.3s ease-in-out;
+}
+
+
+thead {
+    position: sticky;
+    top: 55px;
+}
+
+
+.heading {
+    background-color: black;
+    color: white;
+}
+
+.t-body {
+    color: black;
+    background: #EFEFBB;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #D4D3DD, #EFEFBB);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #D4D3DD, #EFEFBB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 850px) {
+
+    .table-container {
+        justify-content: flex-start;
+        overflow:scroll;
+        height: 95vh;
+        
+    }
+    thead {
+        position: sticky;
+        top: 0px;
+    }
+    /* tbody{
+        overflow: scroll;
+    } */
+
+  }
+
+

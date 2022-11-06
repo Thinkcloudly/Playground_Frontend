@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "thinkcloudly73419cd4_identitypool_73419cd4",
+    "identityPoolName": "labs1f05801b_identitypool_1f05801b",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "thinkc73419cd4",
-    "userPoolName": "thinkcloudly73419cd4_userpool_73419cd4",
+    "resourceNameTruncated": "labs1f05801b",
+    "userPoolName": "labs1f05801b_userpool_1f05801b",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,10 +31,10 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "thinkc73419cd4_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "labs1f1f05801b_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "73419cd4",
-    "resourceName": "thinkcloudly73419cd4",
+    "sharedId": "1f05801b",
+    "resourceName": "labs1f05801b",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
     "usernameAttributes": [
@@ -45,4 +45,4 @@
     "usernameCaseSensitive": false,
     "useEnabledMfas": true
   }
-}
+} 

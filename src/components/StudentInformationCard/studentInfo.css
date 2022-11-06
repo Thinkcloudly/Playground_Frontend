@@ -1,0 +1,16 @@
+.table-body {
+    background: rgb(247,247,247);
+    background: radial-gradient(circle, rgba(247,247,247,1) 37%, rgba(220,220,220,1) 100%);
+}
+
+
+
+.tdata {
+    padding: 5px;
+}
+.thead {
+    width: 140px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: flex-start;
+}

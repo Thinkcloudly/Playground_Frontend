@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-thinkcloudly-dev-173636-authRole",
-      "UnauthRoleArn": "arn:aws:iam::071688540161:role/amplify-thinkcloudly-dev-173636-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::071688540161:role/amplify-thinkcloudly-dev-173636-authRole",
+      "AuthRoleName": "amplify-labs-dev-191626-authRole",
+      "UnauthRoleArn": "arn:aws:iam::654202376781:role/amplify-labs-dev-191626-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::654202376781:role/amplify-labs-dev-191626-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-thinkcloudly-dev-173636-deployment",
-      "UnauthRoleName": "amplify-thinkcloudly-dev-173636-unauthRole",
-      "StackName": "amplify-thinkcloudly-dev-173636",
-      "StackId": "arn:aws:cloudformation:us-east-1:071688540161:stack/amplify-thinkcloudly-dev-173636/594c7450-3c01-11ed-bce5-0e0102cfc979",
-      "AmplifyAppId": "d29xymezlunorz"
+      "DeploymentBucketName": "amplify-labs-dev-191626-deployment",
+      "UnauthRoleName": "amplify-labs-dev-191626-unauthRole",
+      "StackName": "amplify-labs-dev-191626",
+      "StackId": "arn:aws:cloudformation:us-east-1:654202376781:stack/amplify-labs-dev-191626/6c7867b0-5dd9-11ed-8993-0e70561d9dad",
+      "AmplifyAppId": "dcmex9j85zldm"
     },
     "categories": {
       "auth": {
-        "thinkcloudly73419cd4": {}
+        "labs1f05801b": {}
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "auth": {
-    "thinkcloudly73419cd4": {
+    "labs1f05801b": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
