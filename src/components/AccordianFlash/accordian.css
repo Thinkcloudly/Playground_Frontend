@@ -19,3 +19,7 @@
     display: flex;
     align-items: center;
 }
+
+.accord-container {
+    box-shadow: 1px 1px 3px 0px black !important;
+}

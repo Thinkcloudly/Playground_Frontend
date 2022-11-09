@@ -9,14 +9,14 @@ import './accordian.css';
 export default function AccordianFlash({title, summary, payment }) {
   return (
     <div>
-      <Accordion>
+      <Accordion className='accord-container'>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
           <div className='row'>
-          <Typography>{title}</Typography>
+          <div className='name'>{title}</div>
           <span  className={`dot  ${payment  === 'yes'  ? " green" : " red"}` }></span>
           </div>
         </AccordionSummary>

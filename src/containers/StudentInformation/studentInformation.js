@@ -1,59 +1,64 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import StudentInformationCard from "../../components/StudentInformationCard";
 import "./student.css";
-import Loader from "./../../components/loader";
 import { useSearchParams } from "react-router-dom";
 import UserProfile from "../../components/userProfile";
+import { courseStatusTabs } from "../../components/userProfile/userUtils";
 
 const StudentInformation = () => {
-  const [columns, setColumns] = useState([]);
-  const [tableData, setTableData] = useState([]);
-  const [payment, setPayment] = useState([]);
-  const [courses, setCourses] = useState(null);
-  const [studentName, setStudentName] = useState(null);
   const [searchParams] = useSearchParams();
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [studentData, setStudentData] = useState({});
+  const [showCourseDataLoader, setShowCourseDataLoader] = useState(false);
+  const [showUi, setShowUi] = useState(false);
+
   const studentEmail = searchParams.get("email");
 
   useEffect(() => {
     fetchStudentData();
-  }, []);
+  }, [selectedTab]);
 
   const fetchStudentData = async () => {
     try {
+      setShowCourseDataLoader(true);
       const courses = [],
-        paymentStatus = [];
+      payment = [];
       const result = await axios.get(
-        `http://localhost:4000/student-data?spreadsheetId=1Z1YOITDrdFO9GsyCIKbo41tMwzM1rUOxJ9HuTJ-DRAE&range=In Progress&studentEmail=${studentEmail}`
+        `${process.env.REACT_APP_GOOGLE_SHEET_BACKEND_URL}student-data?spreadsheetId=${process.env.REACT_APP_STUDENT_SHEET_ID}&range=${Object.values(courseStatusTabs)[selectedTab]}&studentEmail=${studentEmail}`
       );
       const heading = result.data.slice(0, 1)[0].slice(3);
 
-      setColumns(heading);
       const studentInfo = result.data.slice(1);
-      setStudentName(studentInfo[0][0]);
-      const data = studentInfo.map((info) => {
+      const courseData = studentInfo.map((info) => {
         courses.push(info[2]);
-        paymentStatus.push(info[3].toLowerCase());
+        payment.push(info[3].toLowerCase());
         return info.slice(3);
       });
-      setTableData(data);
-      setCourses(courses);
-      setPayment(paymentStatus);
+      setStudentData({
+        courseData,
+        courses,
+        payment,
+        heading,
+        name: studentInfo[0][0],
+        email: studentEmail
+      })
     } catch (e) {
       console.error(e);
+    } finally {
+      setShowCourseDataLoader(false);
+      setShowUi(true);
     }
   };
 
   return (
     <div className="user">
       <UserProfile
-        payment={payment}
-        name={studentName}
-        email={studentEmail}
-        heading={columns}
-        courseData={tableData}
-        courses={courses}
+        studentData={studentData}
+        selectedTab={selectedTab}
+        handleTabChange={(e, newValue) => setSelectedTab(newValue)}
+        showCourseDataLoader={showCourseDataLoader}
+        showUi={showUi}
       />
     </div>
   );

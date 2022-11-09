@@ -67,7 +67,7 @@ object-fit: cover;
 .course-details {
     margin: 20px;
     background-color: #ffffff;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
     width: 90%;
     border-radius: 5px;
 
@@ -81,4 +81,16 @@ object-fit: cover;
     /* border-bottom: 1px solid lightgray; */
     width: 100%;
     text-decoration: dotted;
+}
+
+.gap {
+    padding-bottom: 20px;
+}
+
+.center-1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
 }
