@@ -25,7 +25,7 @@ const StudentInformation = () => {
       const courses = [],
       payment = [];
       const result = await axios.get(
-        `${process.env.REACT_APP_GOOGLE_SHEET_BACKEND_URL}student-data?spreadsheetId=${process.env.REACT_APP_STUDENT_SHEET_ID}&range=${Object.values(courseStatusTabs)[selectedTab]}&studentEmail=${studentEmail}`
+        `${process.env.REACT_APP_BASE_HOST_URL}student-data?spreadsheetId=${process.env.REACT_APP_STUDENT_SHEET_ID}&range=${Object.values(courseStatusTabs)[selectedTab]}&studentEmail=${studentEmail}`
       );
       const heading = result.data.slice(0, 1)[0].slice(3);
 
