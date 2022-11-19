@@ -31,8 +31,7 @@ const coursesOffered = [
   {
     id: "aws-2",
     name: "EC2 Website Access",
-    description:
-      "Troubleshoot & Fix Website Access Issue on EC2",
+    description: "Troubleshoot & Fix Website Access Issue on EC2",
     image: aws_2,
     environment: "testEnv2",
     resources: [
@@ -82,7 +81,23 @@ const coursesOffered = [
         },
       },
     ],
-  }
+  },
+  {
+    id: "aws-3",
+    image: aws_2,
+    userId: "user123",
+    name: "AWS S3 Bucket Policy",
+    description: "AWS S3 Bucket Policy",
+    environment: "senario3",
+    region: "us-east-1",
+    resources: [
+      {
+        id: "bucket",
+        type: "AWS::S3::Bucket",
+        properties: {},
+      },
+    ],
+  },
 ];
 
 export default coursesOffered;

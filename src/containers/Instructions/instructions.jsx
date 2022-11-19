@@ -48,7 +48,7 @@ const Instructions = () => {
   const fetchMarkDownFileContent = async () => {
     try {
       const response = await axios.get(
-        fetchInstructionsModuleEndpoint(courseId)
+        `${process.env.REACT_APP_BASE_HOST_URL}${fetchInstructionsModuleEndpoint(courseId)}`
       );
       const markdown = await response.data;
       setInstructions(markdown);
