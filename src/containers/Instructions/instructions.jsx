@@ -131,7 +131,7 @@ const Instructions = () => {
       setAlertMessage(deletedEnvironmentSuccessfully);
       setAlertLevel(success);
     } catch (e) {
-      console.error("Error while deleting Scenerio", e);
+      console.error("Error while deleting scenerio", e);
       setAlertMessage("Error while deleting Scenerio");
       setAlertLevel(error);
     } finally {
