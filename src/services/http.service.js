@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_HOST_URL = 'https://thinkcloudly-playground.netlify.app/.netlify/functions/api/';
+const BASE_HOST_URL = 'https://backend.thinkbizly.com/api/';
 
 const httpServices = {
   getRequest: async (url, headers) => {
