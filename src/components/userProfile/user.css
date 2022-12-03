@@ -64,6 +64,29 @@ object-fit: cover;
     /* top: 150px; */
 }
 
+.thead {
+    padding: 4px 10px;
+    width: 150px;
+    text-align: start;
+    
+}
+
+.tbody {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-row-content {
+    display: flex;
+    align-items: center;
+}
+
+.tdata {
+    padding:  4px 10px;
+    width: 100px;
+    text-align: start;
+}
+
 .course-details {
     margin: 20px;
     background-color: #ffffff;
@@ -94,3 +117,14 @@ object-fit: cover;
     align-items: center;
     height: 10vh;
 }
+
+@media screen and (max-width: 635px) {
+
+    .table-row-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+  }

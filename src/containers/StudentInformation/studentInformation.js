@@ -40,7 +40,7 @@ const StudentInformation = () => {
         courses,
         payment,
         heading,
-        name: studentInfo[0][0],
+        name: studentInfo?.[0]?.[0],
         email: studentEmail
       })
     } catch (e) {
