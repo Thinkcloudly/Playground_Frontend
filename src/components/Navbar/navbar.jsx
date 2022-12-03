@@ -13,9 +13,10 @@ import {
 } from "@mui/material";
 import thinkCloudlyLogo from "../../static/images/logo.jpg";
 import "./navBar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
+import { hideNavBarPath } from "../../configs/constants";
 
 const navItems = ["Home", "Blogs", "Courses", "Quiz", "Contact Us"];
 const navLinks = {
@@ -31,6 +32,8 @@ const ResponsiveAppBar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerWidth = `100%`;
+
+  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -57,6 +60,8 @@ const ResponsiveAppBar = (props) => {
         return bookDemo;
     }
   };
+
+  console.log(window, "F-4");
 
   const drawer = (
     <Box
@@ -115,58 +120,62 @@ const ResponsiveAppBar = (props) => {
             //   width='80px'
             alt="ThinkCloudly Logo"
           />
-          <Box className="btn-container" id="nav-options">
-            <Box>
-              {navItems.map((item) => (
-                <a key={item} className="btn items" href={getLink(item)}>
-                  {item}
+          {!hideNavBarPath.includes(location.pathname) && (
+            <div>
+              <Box className="btn-container" id="nav-options">
+                <Box>
+                  {navItems.map((item) => (
+                    <a key={item} className="btn items" href={getLink(item)}>
+                      {item}
+                    </a>
+                  ))}
+                  <Link
+                    to="/"
+                    style={{ marginRight: "20px" }}
+                    className="btn items"
+                  >
+                    Labs
+                  </Link>
+                </Box>
+                <a className="demo items" href={getLink("bookDemo")}>
+                  Book a Demo
                 </a>
-              ))}
-              <Link
-                to="/"
-                style={{ marginRight: "20px" }}
-                className="btn items"
+              </Box>
+              <Box component="nav">
+                <Drawer
+                  anchor="top"
+                  container={container}
+                  // variant="persistent"
+                  open={mobileOpen}
+                  onClose={handleDrawerToggle}
+                  ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                  }}
+                  sx={{
+                    "& .MuiDrawer-paper": {
+                      boxSizing: "border-box",
+                      width: drawerWidth,
+                    },
+                  }}
+                >
+                  {drawer}
+                </Drawer>
+              </Box>
+              <IconButton
+                id="drawer"
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, color: "black" }}
               >
-                Labs
-              </Link>
-            </Box>
-            <a className="demo items" href={getLink("bookDemo")}>
-              Book a Demo
-            </a>
-          </Box>
-          <Box component="nav">
-            <Drawer
-              anchor="top"
-              container={container}
-              // variant="persistent"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-              sx={{
-                "& .MuiDrawer-paper": {
-                  boxSizing: "border-box",
-                  width: drawerWidth,
-                },
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Box>
-          <IconButton
-            id="drawer"
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, color: "black" }}
-          >
-            <MenuIcon />
-            <Typography variant="h6" sx={{ ml: 1, color: "#555555" }}>
-              Menu
-            </Typography>
-          </IconButton>
+                <MenuIcon />
+                <Typography variant="h6" sx={{ ml: 1, color: "#555555" }}>
+                  Menu
+                </Typography>
+              </IconButton>
+            </div>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
